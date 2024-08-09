@@ -1,6 +1,6 @@
 # LSE Undergraduate Course Finder
 
-## Course finding tool based on past grade statistics and assessment components for LSE undergraduates.
+## Course finding tool based on grade statistics and assessment components for LSE undergraduates.
 
 ### Setup
 
