@@ -36,7 +36,7 @@ def scrape_course_details(course_url):
         professor_div = soup.find('div', id = 'teacherResponsible-Content')
 
         if professor_div:
-            professor_info = professor_div.get_text(strip=True)
+            professor_info = professor_div.get_text(strip = True)
         else:
             professor_info = "Professor information not found."
         
