@@ -16,6 +16,6 @@ Once you are inside the directory and have all requirements installed, run:
 
 ```streamlit run app.py```
 
-
+Data is currently available for departments of Economics, Management, Government, Finance, Mathematics and Statistics.
 
 
