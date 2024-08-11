@@ -12,7 +12,9 @@ Once you are inside the directory and have all requirements installed, run `stre
 
 </br>
 
-Data is currently available for the following departments: 
+### General Information
+
+Data is currently available for the **following departments**: 
 - Economics
 - Management
 - Government
