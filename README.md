@@ -10,8 +10,6 @@ For some reason, Streamlit is not allowing me to deploy the app. To access the t
 
 Once you are inside the directory and have all requirements installed, run `streamlit run app.py`
 
-</br>
-
 ### General Information
 
 Data is currently available for the **following departments**: 
