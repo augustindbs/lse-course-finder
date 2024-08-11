@@ -4,11 +4,7 @@
 
 ### Setup
 
-For some reason, Streamlit is not allowing me to deploy the app. To access the tool, clone this repository and install the requirements using:
-
-```pip install -r requirements.txt```
-
-You will need [PIP](https://pypi.org/project/pip/) already installed for this.
+For some reason, Streamlit is not allowing me to deploy the app. To access the tool, clone this repository and install the requirements using `pip install -r requirements.txt`. You will need [PIP](https://pypi.org/project/pip/) already installed for this.
 
 <br/>
 
