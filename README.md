@@ -20,6 +20,6 @@ Data is currently available for the following departments:
 - Statistics
 - Mathematics
 
-Regardless of the department, the dataset excludes courses that are no longer taught as of today (even though due to resits there may be present-day course data for these in the LSE exam statistics), and does not include new courses for which examinations have not yet taken place. 
+The dataset excludes courses that are no longer taught as of today (even though due to resits there may be present-day course data for these in the LSE exam statistics), and does not include new courses for which examinations have not yet taken place. 
 
 
