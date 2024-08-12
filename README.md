@@ -2,7 +2,11 @@
 
 ## Course finding tool based on grade statistics and assessment components
 
+</br>
+
 **[Access the app here](https://lse-course-finder.streamlit.app/)**
+
+</br>
 
 ### General Information
 
