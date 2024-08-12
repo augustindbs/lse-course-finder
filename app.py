@@ -45,11 +45,11 @@ def scrape_course_details(course_url):
     except Exception as e:
         return f"An error occurred: {e}", None
 
-selected_department = st.sidebar.selectbox("Choose your department:", departments)
+selected_department = st.sidebar.selectbox("Choose your department:", departments, placeholder = 'Select department...')
 df_selected_department = courses_data[selected_department]
 
 df_selected_department['Code & Name'] = df_selected_department.index + ' - ' + df_selected_department['Course Name']
-selected_course = st.sidebar.selectbox("Choose your course:", df_selected_department['Code & Name'])
+selected_course = st.sidebar.selectbox("Choose your course:", df_selected_department['Code & Name'], placeholder = 'Select course...')
 
 selected_course_code = selected_course.split(" - ")[0]
 
