@@ -2,13 +2,11 @@
 
 ## Course finding tool based on grade statistics and assessment components
 
-### Setup
+</br>
 
-For some reason, Streamlit is not allowing me to deploy the app. To access the tool, clone this repository and install the requirements using `pip install -r requirements.txt`. You will need [PIP](https://pypi.org/project/pip/) already installed for this.
+**[Access the app here](https://lse-course-finder.streamlit.app/)**
 
-<br/>
-
-Once you are inside the directory and have all requirements installed, run `streamlit run app.py`
+</br>
 
 ### General Information
 
