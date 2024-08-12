@@ -6,6 +6,8 @@
 
 **[Access the app here](https://lse-course-finder.streamlit.app/)**
 
+</br>
+
 ### General Information
 
 Data is currently available for the **following departments**: 
