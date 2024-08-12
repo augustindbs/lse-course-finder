@@ -1,12 +1,8 @@
 # LSE Undergraduate Course Finder
 
-## Course finding tool based on grade statistics and assessment components
-
-</br>
+### Course finding tool based on grade statistics and assessment components
 
 **[Access the app here](https://lse-course-finder.streamlit.app/)**
-
-</br>
 
 ### General Information
 
