@@ -17,7 +17,7 @@ for department in departments:
 def scrape_course_details(course_url):
     
     """
-    Scrape course content and professor info from the given URL.
+    Scrapes course content and professor info from the given URL.
     """
     
     try:
@@ -87,7 +87,7 @@ exams = key_statistics['Exams'] = int(key_statistics['Exams'])
 st.markdown(f"### {selected_course} <span style = 'color: red; font-size: 20px'> {unit_label} </span>", unsafe_allow_html = True)
 
 st.markdown("___")
-st.write(f"**Professor:** {professor_info}")
+st.write(f"**Professor(s):** {professor_info}")
 st.write(f"**Assessment:** {exam} Exam | {coursework} Coursework | {participation} Class Participation")
 st.write("\n")
 
