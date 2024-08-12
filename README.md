@@ -4,7 +4,7 @@
 
 **[Access the app here](https://lse-course-finder.streamlit.app/)**
 
-### General Information
+<br/>
 
 Data is currently available for the **following departments**: 
 - Economics
