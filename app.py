@@ -60,11 +60,15 @@ if st.session_state.show_filter:
     st.write("### Browse and Filter Courses")
     st.markdown("___")
 
-    selected_filter_department = st.selectbox("Choose a department:", departments)
-    df_filter_department = courses_data[selected_filter_department]
+    selected_filter_department = st.selectbox("Choose a department:", ['All Departments'] + departments)
+    
+    if selected_filter_department == 'All Departments':
+        df_filter_department = pd.concat(courses_data.values())
+    else:
+        df_filter_department = courses_data[selected_filter_department]
 
     unit_filter = st.selectbox("Unit Value", ["Display All", 0.5, 1])
-    coursework_filter = st.slider("Minimum Coursework %", 0, 100, 0)
+    coursework_filter = st.slider("Minimum Coursework %", 0, 100, 0, step = 5)
 
     filtered_courses = df_filter_department.copy()
 
