@@ -18,4 +18,4 @@ The dataset excludes courses that are no longer taught as of today (even though 
 
 <br/>
 
-Can now **browse and filter courses based on relevant metrics** (coursework components, mean grade, first-class rate etc.)
+There is also the option to **browse, sort and filter courses based on relevant metrics** (unit value, coursework components, mean grade, first-class rate etc.)
