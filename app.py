@@ -11,7 +11,7 @@ courses_data = {}
 
 for department in departments:
     df = data.parse(department)
-    df.set_index('Code', inplace=True)
+    df.set_index('Code', inplace = True)
     courses_data[department] = df
 
 def scrape_course_details(course_url):
