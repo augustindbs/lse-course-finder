@@ -4,7 +4,7 @@
 
 <br/>
 
-[![LSE Course Finder](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://lse-course-finder.streamlitapp.com/) (click to access the app)
+[![LSE Course Finder](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://lse-course-finder.streamlitapp.com/)
 
 <br/>
 
