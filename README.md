@@ -22,4 +22,4 @@ Exams that are **held on campus** (whether on paper or e-Exam format) are consid
 
 <br/>
 
-There is also the option to **browse, sort and filter courses based on relevant metrics** (unit value, mean grade, first-class rate etc.)
+There is also the option to **browse, sort and filter courses based on relevant metrics** (unit value, mean grade, first-class rate etc.), as well as **search for courses by keywords** in the course content or course name.
