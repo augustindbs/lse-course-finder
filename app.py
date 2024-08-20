@@ -1,8 +1,9 @@
-
 import streamlit as st
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
+
+logo_path = 'data/lse_logo.png'
 
 data = pd.ExcelFile('data/courses_data.xlsx')
 departments = data.sheet_names
@@ -19,7 +20,7 @@ def scrape_course_details(course_url):
     """
     Function to web-scrape course content and professor details directly from LSE website.
     """
-    
+
     try:
         response = requests.get(course_url)
         response.raise_for_status()
@@ -38,23 +39,34 @@ def scrape_course_details(course_url):
 
 if 'show_filter' not in st.session_state:
     st.session_state.show_filter = False
+    
+if 'show_keyword_search' not in st.session_state:
+    st.session_state.show_keyword_search = False
 
 with st.sidebar:
+    st.image(logo_path, width = 100)
+    st.write("\n")
+    
     st.markdown("## Individual Course Pages")
     st.write("\n")
 
     selected_department = st.selectbox("Choose your department:", departments)
     df_selected_department = courses_data[selected_department]
-    df_selected_department['Code & Name'] = df_selected_department.index + ' - ' + df_selected_department['Course Name']
 
-    selected_course = st.selectbox("Choose your course:", df_selected_department['Code & Name'], on_change = lambda: st.session_state.update(show_filter = False))
+    df_selected_department['Code & Name'] = df_selected_department.index + ' - ' + df_selected_department['Course Name']
+    selected_course = st.selectbox("Choose your course:", df_selected_department['Code & Name'], on_change = lambda: st.session_state.update(show_filter = False, show_keyword_search = False))
 
     st.markdown("___")
-    st.write('## Pragmatic Filtering')
+    st.write('## Filtering Options')
     st.write("\n")
-    
-    if st.button("Browse and Filter Courses", type = 'primary'):
+
+    if st.button("Browse and Filter", type = 'primary', use_container_width = True):
         st.session_state.show_filter = True
+        st.session_state.show_keyword_search = False
+
+    if st.button("Keyword Search", type = 'primary', use_container_width = True):
+        st.session_state.show_keyword_search = True
+        st.session_state.show_filter = False
 
 if st.session_state.show_filter:
     st.write("### Browse and Filter Courses")
@@ -64,6 +76,7 @@ if st.session_state.show_filter:
     
     if selected_filter_department == 'All Departments':
         df_filter_department = pd.concat(courses_data.values())
+    
     else:
         df_filter_department = courses_data[selected_filter_department]
 
@@ -84,18 +97,48 @@ if st.session_state.show_filter:
     filtered_courses['Exam %'] = (filtered_courses['Exam %'] * 100).astype(int).astype(str) + '%'
     filtered_courses['1 (2024)'] = (filtered_courses['1 (2024)'] * 100).astype(int).astype(str) + '%'
 
-    filtered_courses.rename(columns = {
+    filtered_courses.rename(columns={
         'Course Name': 'Course',
         'Unit Value': 'Units',
         'Mean (2024)': 'Mean Grade',
         '1 (2024)': 'First-Class Rate',
-    }, inplace = True)
+    }, inplace=True)
 
     st.write("\n")
     st.write('##### Click on table columns to sort courses by relevant filters')
     st.write("\n")
 
     st.dataframe(filtered_courses[['Course', 'Units', 'Mean Grade', 'First-Class Rate', 'Coursework %']], height = 500, width = 1000)
+
+elif st.session_state.show_keyword_search:
+    st.write("### Keyword Search")
+    st.markdown("___")
+
+    keyword = st.text_input("Enter keyword(s) to search:")
+    
+    if keyword:
+        keyword_lower = keyword.lower()
+        search_results = []
+
+        for department, df in courses_data.items():
+            df['Course Content'], _ = zip(*df.apply(lambda row: scrape_course_details(f"https://www.lse.ac.uk/resources/calendar2023-2024/courseGuides/{department[:2]}/2023_{row.name}.htm"), axis = 1))
+            df_filtered = df[df['Course Name'].str.contains(keyword_lower, case = False) | df['Course Content'].str.contains(keyword_lower, case = False)]
+            search_results.append(df_filtered)
+
+        search_results_df = pd.concat(search_results)
+        
+        if not search_results_df.empty:
+            search_results_df['Link'] = search_results_df.index + ' - ' + search_results_df['Course Name']
+            st.write(f"#### Results for '{keyword}':")
+            st.write("\n")
+
+            for index, row in search_results_df.iterrows():
+                department_code = index[:2]
+                course_url = f"https://www.lse.ac.uk/resources/calendar2023-2024/courseGuides/{department_code}/2023_{index}.htm"
+                st.markdown(f"[{row['Link']}]({course_url})", unsafe_allow_html=True)
+                
+        else:
+            st.write(f"No results found for '{keyword}'.")
 
 else:
     selected_course_code = selected_course.split(" - ")[0]
@@ -117,6 +160,7 @@ else:
 
     st.markdown(f"### {selected_course} <span style = 'color: red; font-size: 20px'> {unit_label} </span>", unsafe_allow_html = True)
     st.markdown("___")
+
     st.write(f"**Professor(s):** {professor_info}")
     st.write(f"**Assessment:** {key_statistics['Exam %'] * 100}% Exam | {key_statistics['Coursework %'] * 100}% Coursework | {key_statistics['Participation %'] * 100}% Class Participation")
     st.write("\n")
@@ -127,9 +171,11 @@ else:
 
     st.write("#### Key Statistics (2023-2024):")
     st.write("\n")
+
     st.write(f"**Marks:** {int(key_statistics['Marks (2024)'])} | **Mean:** {key_statistics['Mean (2024)']:.1f} | **Highest Grade:** {int(key_statistics['Max (2024)'])} | **First-Class Rate:** {round(grades['1 (2024)'] * 100, 1)}% | **Fail Rate:** {round(grades['F (2024)'] * 100, 1)}%")
     st.write("\n")
 
     st.write("#### Past Year Grade Distribution (2023-2024):")
     st.write("\n")
-    st.bar_chart(grades_df.set_index('Grade'), color = '#8B0000', horizontal = True, height = 400, x_label = 'Frequency (%)', y_label = 'Grade Classification')
+
+    st.bar_chart(grades_df.set_index('Grade'), color = '#BE0000', horizontal = True, height = 400, x_label = 'Frequency (%)', y_label = 'Grade Classification')
