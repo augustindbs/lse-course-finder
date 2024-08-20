@@ -2,7 +2,7 @@
 
 ### Course finding tool based on grade statistics and assessment components
 
-**[Access the app here](https://lse-course-finder.streamlit.app/)**
+[![LSE Course Finder](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://lse-course-finder.streamlitapp.com/)
 
 <br/>
 
