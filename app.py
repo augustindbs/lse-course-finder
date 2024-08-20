@@ -21,21 +21,17 @@ def scrape_course_details(course_url):
     Function to web-scrape course content and professor details directly from LSE website.
     """
 
-    try:
-        response = requests.get(course_url)
-        response.raise_for_status()
-        soup = BeautifulSoup(response.content, 'html.parser')
+    response = requests.get(course_url)
+    response.raise_for_status()
+    soup = BeautifulSoup(response.content, 'html.parser')
 
-        content_div = soup.find('div', id = 'courseContent-Content')
-        course_content = '\n'.join(p.get_text() for p in content_div.find_all('p')) if content_div else "Content not found."
+    content_div = soup.find('div', id = 'courseContent-Content')
+    course_content = '\n'.join(p.get_text() for p in content_div.find_all('p')) if content_div else "Content not found."
 
-        professor_div = soup.find('div', id = 'teacherResponsible-Content')
-        professor_info = professor_div.get_text(strip = True) if professor_div else "Professor information not found."
+    professor_div = soup.find('div', id = 'teacherResponsible-Content')
+    professor_info = professor_div.get_text(strip = True) if professor_div else "Professor information not found."
 
-        return course_content, professor_info
-    
-    except Exception as e:
-        return f"An error occurred: {e}", None
+    return course_content, professor_info
 
 if 'show_filter' not in st.session_state:
     st.session_state.show_filter = False
@@ -81,6 +77,7 @@ if st.session_state.show_filter:
         df_filter_department = courses_data[selected_filter_department]
 
     unit_filter = st.selectbox("Unit Value", ["Display All", 0.5, 1])
+    st.write('\n')
     coursework_filter = st.slider("Minimum Coursework %", 0, 100, 0, step = 5)
 
     filtered_courses = df_filter_department.copy()
@@ -97,18 +94,19 @@ if st.session_state.show_filter:
     filtered_courses['Exam %'] = (filtered_courses['Exam %'] * 100).astype(int).astype(str) + '%'
     filtered_courses['1 (2024)'] = (filtered_courses['1 (2024)'] * 100).astype(int).astype(str) + '%'
 
-    filtered_courses.rename(columns={
+    filtered_courses.rename(columns = {
         'Course Name': 'Course',
         'Unit Value': 'Units',
-        'Mean (2024)': 'Mean Grade',
-        '1 (2024)': 'First-Class Rate',
-    }, inplace=True)
+        'Mean (2024)': 'Mean',
+        '1 (2024)': 'First-Class %',
+        'Coursework %': 'Coursework'
+    }, inplace = True)
 
     st.write("\n")
     st.write('##### Click on table columns to sort courses by relevant filters')
     st.write("\n")
 
-    st.dataframe(filtered_courses[['Course', 'Units', 'Mean Grade', 'First-Class Rate', 'Coursework %']], height = 500, width = 1000)
+    st.dataframe(filtered_courses[['Course', 'Units', 'Mean', 'First-Class %', 'Coursework']], height = 500, width = 1000)
 
 elif st.session_state.show_keyword_search:
     st.write("### Keyword Search")
