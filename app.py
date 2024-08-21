@@ -11,7 +11,7 @@ def load_course_content_data():
 course_content_data = load_course_content_data()
 
 data = pd.ExcelFile('data/courses_data.xlsx')
-departments = data.sheet_names
+departments = sorted(data.sheet_names)
 
 courses_data = {}
 
