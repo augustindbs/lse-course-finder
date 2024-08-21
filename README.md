@@ -9,12 +9,14 @@
 <br/>
 
 Data is currently available for the **following departments**: 
+
 - Economics
-- Management
 - Government
+- Management
 - Law
 - Finance
 - International Relations
+- Accounting
 - Mathematics
 - Statistics
 - Philosophy
