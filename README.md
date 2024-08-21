@@ -12,6 +12,7 @@ Data is currently available for the **following departments**:
 - Economics
 - Management
 - Government
+- Law
 - Finance
 - International Relations
 - Mathematics
