@@ -26,11 +26,11 @@ def scrape_course_details(course_url_2025, course_url_2024):
 
     soup = BeautifulSoup(response.content, 'html.parser')
 
-    content_div = soup.find('div', id='courseContent-Content')
+    content_div = soup.find('div', id = 'courseContent-Content')
     course_content = '\n'.join(p.get_text() for p in content_div.find_all('p')) if content_div else "Content not found."
 
-    professor_div = soup.find('div', id='teacherResponsible-Content')
-    professor_info = professor_div.get_text(strip=True) if professor_div else "Professor information not found."
+    professor_div = soup.find('div', id = 'teacherResponsible-Content')
+    professor_info = professor_div.get_text(strip = True) if professor_div else "Professor information not found."
 
     return course_content, professor_info
 
