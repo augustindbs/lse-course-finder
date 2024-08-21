@@ -15,6 +15,7 @@ Data is currently available for the **following departments**:
 - Finance
 - International Relations
 - Mathematics
+- Statistics
 
 <br/>
 
