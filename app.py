@@ -159,14 +159,23 @@ else:
     st.markdown(f"### {selected_course} <span style = 'color: red; font-size: 20px'> {unit_label} </span>", unsafe_allow_html = True)
     st.markdown("___")
 
-    if key_statistics['Exams'] > 1:
-        exams = key_statistics['Exams']
+    exams = key_statistics.get('Exams', 0)
+    components = key_statistics.get('Coursework Components', 0)
 
-    if key_statistics['Coursework Components'] > 1:
-        components = key_statistics['Coursework Components']
+    assessment_details = f"**Assessment:** {key_statistics['Exam %'] * 100}% Exam"
+
+    if exams > 1:
+        assessment_details += f" ({exams} Exams)"
+
+    assessment_details += f" | {key_statistics['Coursework %'] * 100}% Coursework"
+
+    if components > 1:
+        assessment_details += f" ({components} Components)"
+
+    assessment_details += f" | {key_statistics['Participation %'] * 100}% Class Participation"
 
     st.write(f"**Professor(s):** {professor_info}")
-    st.write(f"**Assessment:** {key_statistics['Exam %'] * 100}% Exam ({exams} Exams) | {key_statistics['Coursework %'] * 100}% Coursework ({components} Components)| {key_statistics['Participation %'] * 100}% Class Participation")
+    st.write(assessment_details)
     st.write("\n")
 
     st.write("#### Course Content:")
