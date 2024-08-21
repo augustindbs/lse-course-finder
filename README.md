@@ -16,6 +16,7 @@ Data is currently available for the **following departments**:
 - International Relations
 - Mathematics
 - Statistics
+- Philosophy
 
 <br/>
 

@@ -15,20 +15,28 @@ for department in departments:
     df.set_index('Code', inplace = True)
     courses_data[department] = df
 
-def scrape_course_details(course_url):
+def scrape_course_details(course_url_2025, course_url_2024):
     
     """
-    Function to web-scrape course content and professor details directly from LSE website.
+    Function to web-scrape course content and professor details from LSE website.
+    
+    Tries the 2024-2025 URL first; if that fails, falls back to 2023-2024.
     """
 
-    response = requests.get(course_url)
-    response.raise_for_status()
+    try:
+        response = requests.get(course_url_2025)
+        response.raise_for_status()
+
+    except requests.exceptions.HTTPError:
+        response = requests.get(course_url_2024)
+        response.raise_for_status()
+        
     soup = BeautifulSoup(response.content, 'html.parser')
 
     content_div = soup.find('div', id = 'courseContent-Content')
     course_content = '\n'.join(p.get_text() for p in content_div.find_all('p')) if content_div else "Content not found."
 
-    professor_div = soup.find('div', id = 'teacherResponsible-Content')
+    professor_div = soup.find('div', id='teacherResponsible-Content')
     professor_info = professor_div.get_text(strip = True) if professor_div else "Professor information not found."
 
     return course_content, professor_info
@@ -119,8 +127,12 @@ elif st.session_state.show_keyword_search:
         search_results = []
 
         for department, df in courses_data.items():
-            df['Course Content'], _ = zip(*df.apply(lambda row: scrape_course_details(f"https://www.lse.ac.uk/resources/calendar2023-2024/courseGuides/{department[:2]}/2023_{row.name}.htm"), axis = 1))
+            df['Course Content'], _ = zip(*df.apply(lambda row: scrape_course_details(
+                f"https://www.lse.ac.uk/resources/calendar2024-2025/courseGuides/{department[:2]}/2024_{row.name}.htm",
+                f"https://www.lse.ac.uk/resources/calendar2023-2024/courseGuides/{department[:2]}/2023_{row.name}.htm"), axis = 1))
+            
             df_filtered = df[df['Course Name'].str.contains(keyword_lower, case = False) | df['Course Content'].str.contains(keyword_lower, case = False)]
+            
             search_results.append(df_filtered)
 
         search_results_df = pd.concat(search_results)
@@ -133,7 +145,7 @@ elif st.session_state.show_keyword_search:
             for index, row in search_results_df.iterrows():
                 department_code = index[:2]
                 course_url = f"https://www.lse.ac.uk/resources/calendar2023-2024/courseGuides/{department_code}/2023_{index}.htm"
-                st.markdown(f"[{row['Link']}]({course_url})", unsafe_allow_html=True)
+                st.markdown(f"[{row['Link']}]({course_url})", unsafe_allow_html = True)
                 
         else:
             st.write(f"No results found for '{keyword}'.")
@@ -144,10 +156,12 @@ else:
     unit_value = df_selected_department.loc[selected_course_code, 'Unit Value']
     unit_label = "(Half Unit)" if unit_value == 0.5 else "(Full Unit)" if unit_value == 1 else ""
 
-    base_url = 'https://www.lse.ac.uk/resources/calendar2023-2024/courseGuides/'
     department_code = selected_department[:2]
-    course_url = f"{base_url}{department_code}/2023_{selected_course_code}.htm"
-    course_content, professor_info = scrape_course_details(course_url)
+    
+    base_url_2025 = f"https://www.lse.ac.uk/resources/calendar2024-2025/courseGuides/{department_code}/2024_{selected_course_code}.htm"
+    base_url_2024 = f"https://www.lse.ac.uk/resources/calendar2023-2024/courseGuides/{department_code}/2023_{selected_course_code}.htm"
+    
+    course_content, professor_info = scrape_course_details(base_url_2025, base_url_2024)
 
     key_statistics_columns = ['Marks (2024)', 'Mean (2024)', 'Max (2024)', 'Coursework %', 'Participation %', 'Exam %', 'Coursework Components', 'Exams']
     key_statistics = df_selected_department.loc[selected_course_code, key_statistics_columns]
