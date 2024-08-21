@@ -2,7 +2,8 @@ import streamlit as st
 import pandas as pd
 import pickle
 
-@st.cache_data(ttl=3600)
+@st.cache_data(ttl = 3600)
+
 def load_course_content_data():
     with open('data/course_content_data.pkl', 'rb') as file:
         return pickle.load(file)
@@ -39,10 +40,10 @@ with st.sidebar:
     selected_course = st.selectbox("Choose your course:", df_selected_department['Code & Name'], on_change = lambda: st.session_state.update(show_filter = False, show_keyword_search = False))
 
     st.markdown("___")
-    st.write('## Filtering Options')
+    st.write('## Browsing Options')
     st.write("\n")
 
-    if st.button("Browse and Filter", type = 'primary', use_container_width = True):
+    if st.button("Filter and Rank", type = 'primary', use_container_width = True):
         st.session_state.show_filter = True
         st.session_state.show_keyword_search = False
 
@@ -141,7 +142,7 @@ else:
     grades = df_selected_department.loc[selected_course_code, grades_columns]
     grades_df = pd.DataFrame({'Grade': ['1:1', '2:1', '2:2', '3', 'P', 'F', 'AB'], 'Frequency (%)': grades * 100})
 
-    st.markdown(f"### {selected_course} <span style='color: red; font-size: 20px'> {unit_label} </span>", unsafe_allow_html = True)
+    st.markdown(f"### {selected_course} <span style = 'color: red; font-size: 20px'> {unit_label} </span>", unsafe_allow_html = True)
     st.markdown("___")
 
     exams = key_statistics.get('Exams', 0)
@@ -164,7 +165,7 @@ else:
     st.write("\n")
 
     st.write("#### Course Content:")
-    st.markdown(f"<div style='font-size: 14px;'> {course_content} </div>", unsafe_allow_html = True)
+    st.markdown(f"<div style = 'font-size: 14px;'> {course_content} </div>", unsafe_allow_html = True)
     st.write("\n")
 
     st.write("#### Key Statistics (2023-2024):")
