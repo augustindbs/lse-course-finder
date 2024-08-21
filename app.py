@@ -177,4 +177,4 @@ else:
     st.write("#### Past Year Grade Distribution (2023-2024):")
     st.write("\n")
 
-    st.bar_chart(grades_df.set_index('Grade'), color = '#BE0000', horizontal = True, height = 400, x_label = 'Frequency (%)', y_label = 'Grade Classification')
+    st.bar_chart(grades_df.set_index('Grade'), color = '#8E0000', horizontal = True, height = 350, x_label = 'Frequency (%)', y_label = 'Grade Classification')
