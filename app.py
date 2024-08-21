@@ -92,7 +92,7 @@ if st.session_state.show_filter:
     st.write('##### Click on table columns to sort courses by relevant filters')
     st.write("\n")
 
-    st.dataframe(filtered_courses[['Course', 'Units', 'Mean', 'First-Class %', 'Coursework']], height = 500, width = 1000)
+    st.dataframe(filtered_courses[['Course', 'Units', 'Mean', 'First-Class %', 'Coursework']], height = 600, width = 1000, column_config = {"Course": st.column_config.Column(width = 330)})
 
 elif st.session_state.show_keyword_search:
     st.write("### Keyword Search")
