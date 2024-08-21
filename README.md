@@ -27,4 +27,4 @@ Exams that are **held on campus** (whether on paper or e-Exam format) are consid
 
 There is also the option to **browse, sort and filter courses** based on relevant metrics (unit value, mean grade, first-class rate etc.), as well as **search for courses by keywords** in the course content or course name.
 
-The `preprocessing.py` file allows for course **content data to be saved in a Pickle (.pkl) file, in binary format**, so as to significantly speed up keyword search.
+The `preprocessing.py` saves course **content data to be saved in a Pickle (.pkl) file, in binary format**, so as to significantly speed up keyword search.
