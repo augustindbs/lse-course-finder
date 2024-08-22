@@ -75,12 +75,13 @@ if st.session_state.show_filter:
         filtered_courses['Coursework %'] >= coursework_filter / 100
     ]
 
-    filtered_courses['Coursework %'] = (filtered_courses['Coursework %'] * 100).astype(int).astype(str) + '%'
-    filtered_courses['Participation %'] = (filtered_courses['Participation %'] * 100).astype(int).astype(str) + '%'
-    filtered_courses['Exam %'] = (filtered_courses['Exam %'] * 100).astype(int).astype(str) + '%'
-    filtered_courses['1 (2024)'] = (filtered_courses['1 (2024)'] * 100).astype(int).astype(str) + '%'
+    filtered_courses_display = filtered_courses.copy()
+    filtered_courses_display['Coursework %'] = (filtered_courses_display['Coursework %'] * 100).astype(float).round(1).astype(str) + '%'
+    filtered_courses_display['Participation %'] = (filtered_courses_display['Participation %'] * 100).astype(float).astype(str) + '%'
+    filtered_courses_display['Exam %'] = (filtered_courses_display['Exam %'] * 100).astype(int).astype(str) + '%'
+    filtered_courses_display['1 (2024)'] = (filtered_courses_display['1 (2024)'] * 100).astype(float).round(1).astype(str) + '%'
 
-    filtered_courses.rename(columns = {
+    filtered_courses_display.rename(columns = {
         'Course Name': 'Course',
         'Unit Value': 'Units',
         'Mean (2024)': 'Mean',
@@ -92,7 +93,7 @@ if st.session_state.show_filter:
     st.write('##### Click on table columns to sort courses by relevant filters')
     st.write("\n")
 
-    st.dataframe(filtered_courses[['Course', 'Units', 'Mean', 'First-Class %', 'Coursework']], height = 600, width = 1000, column_config = {"Course": st.column_config.Column(width = 330)})
+    st.dataframe(filtered_courses_display[['Course', 'Units', 'Mean', 'First-Class %', 'Coursework']], height = 600, width = 1000, column_config = {"Course": st.column_config.Column(width = 330)})
 
 elif st.session_state.show_keyword_search:
     st.write("### Keyword Search")
@@ -116,12 +117,13 @@ elif st.session_state.show_keyword_search:
         if search_results:
             search_results_df = pd.concat(search_results)
 
-            search_results_df['Coursework %'] = (search_results_df['Coursework %'] * 100).astype(int).astype(str) + '%'
-            search_results_df['Participation %'] = (search_results_df['Participation %'] * 100).astype(int).astype(str) + '%'
-            search_results_df['Exam %'] = (search_results_df['Exam %'] * 100).astype(int).astype(str) + '%'
-            search_results_df['1 (2024)'] = (search_results_df['1 (2024)'] * 100).astype(int).astype(str) + '%'
+            search_results_df_display = search_results_df.copy()
+            search_results_df_display['Coursework %'] = (search_results_df_display['Coursework %'] * 100).astype(float).round(1).astype(str) + '%'
+            search_results_df_display['Participation %'] = (search_results_df_display['Participation %'] * 100).astype(float).astype(str) + '%'
+            search_results_df_display['Exam %'] = (search_results_df_display['Exam %'] * 100).astype(int).astype(str) + '%'
+            search_results_df_display['1 (2024)'] = (search_results_df_display['1 (2024)'] * 100).astype(float).round(1).astype(str) + '%'
 
-            search_results_df.rename(columns = {
+            search_results_df_display.rename(columns = {
                 'Course Name': 'Course',
                 'Unit Value': 'Units',
                 'Mean (2024)': 'Mean',
@@ -131,7 +133,7 @@ elif st.session_state.show_keyword_search:
 
             st.write(f"#### Results for '{keyword}':")
             st.write("\n")
-            st.dataframe(search_results_df[['Course', 'Units', 'Mean', 'First-Class %', 'Coursework']], height = 600, width = 1000, column_config = {"Course": st.column_config.Column(width = 330)})
+            st.dataframe(search_results_df_display[['Course', 'Units', 'Mean', 'First-Class %', 'Coursework']], height = 600, width = 1000, column_config = {"Course": st.column_config.Column(width = 330)})
  
         else:
             st.write(f"No results found for '{keyword}'.")
