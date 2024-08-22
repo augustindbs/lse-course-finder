@@ -16,6 +16,7 @@ Data is currently available for the **following departments**:
 - Law
 - Finance
 - International Relations
+- Economic History
 - Accounting
 - Mathematics
 - Statistics
