@@ -99,28 +99,40 @@ elif st.session_state.show_keyword_search:
     st.markdown("___")
 
     keyword = st.text_input("Enter keyword(s) to search:")
-    
+
     if keyword:
         keyword_lower = keyword.lower()
         search_results = []
 
         for department, df in courses_data.items():
             df['Course Content'] = df.index.map(lambda course_code: course_content_data[department].get(course_code, {}).get('course_content', 'Content not found.'))
-            
-            df_filtered = df[df['Course Name'].str.contains(keyword_lower, case = False) | df['Course Content'].str.contains(keyword_lower, case = False)]
-            search_results.append(df_filtered)
 
-        search_results_df = pd.concat(search_results)
-        
-        if not search_results_df.empty:
-            search_results_df['Link'] = search_results_df.index + ' - ' + search_results_df['Course Name']
+            df_filtered = df[df['Course Name'].str.contains(keyword_lower, case = False) | df['Course Content'].str.contains(keyword_lower, case = False)]
+
+            if not df_filtered.empty:
+                df_filtered['Department'] = department
+                search_results.append(df_filtered)
+
+        if search_results:
+            search_results_df = pd.concat(search_results)
+
+            search_results_df['Coursework %'] = (search_results_df['Coursework %'] * 100).astype(int).astype(str) + '%'
+            search_results_df['Participation %'] = (search_results_df['Participation %'] * 100).astype(int).astype(str) + '%'
+            search_results_df['Exam %'] = (search_results_df['Exam %'] * 100).astype(int).astype(str) + '%'
+            search_results_df['1 (2024)'] = (search_results_df['1 (2024)'] * 100).astype(int).astype(str) + '%'
+
+            search_results_df.rename(columns = {
+                'Course Name': 'Course',
+                'Unit Value': 'Units',
+                'Mean (2024)': 'Mean',
+                '1 (2024)': 'First-Class %',
+                'Coursework %': 'Coursework'
+            }, inplace = True)
+
             st.write(f"#### Results for '{keyword}':")
             st.write("\n")
-
-            for index, row in search_results_df.iterrows():
-                department_code = index[:2]
-                course_url = f"https://www.lse.ac.uk/resources/calendar2023-2024/courseGuides/{department_code}/2023_{index}.htm"
-                st.markdown(f"[{row['Link']}]({course_url})", unsafe_allow_html = True)
+            st.dataframe(search_results_df[['Course', 'Units', 'Mean', 'First-Class %', 'Coursework']], height = 600, width = 1000, column_config = {"Course": st.column_config.Column(width = 330)})
+ 
         else:
             st.write(f"No results found for '{keyword}'.")
 
