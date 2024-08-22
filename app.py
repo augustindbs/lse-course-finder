@@ -27,7 +27,7 @@ if 'show_keyword_search' not in st.session_state:
     st.session_state.show_keyword_search = False
 
 with st.sidebar:
-    st.image('data/lse_logo.png', width=100)
+    st.image('data/lse_logo.png', width = 100)
     st.write("\n")
     
     st.markdown("## Individual Course Pages")
