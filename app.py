@@ -76,24 +76,27 @@ if st.session_state.show_filter:
     ]
 
     filtered_courses_display = filtered_courses.copy()
-    filtered_courses_display['Coursework %'] = (filtered_courses_display['Coursework %'] * 100).astype(float).round(1).astype(str) + '%'
+    filtered_courses_display['Coursework %'] = (filtered_courses_display['Coursework %'] * 100).astype(float).round(1)
     filtered_courses_display['Participation %'] = (filtered_courses_display['Participation %'] * 100).astype(float).astype(str) + '%'
     filtered_courses_display['Exam %'] = (filtered_courses_display['Exam %'] * 100).astype(int).astype(str) + '%'
-    filtered_courses_display['1 (2024)'] = (filtered_courses_display['1 (2024)'] * 100).astype(float).round(1).astype(str) + '%'
+    filtered_courses_display['1 (2024)'] = (filtered_courses_display['1 (2024)'] * 100).astype(float).round(1)
 
     filtered_courses_display.rename(columns = {
         'Course Name': 'Course',
         'Unit Value': 'Units',
         'Mean (2024)': 'Mean',
         '1 (2024)': 'First-Class %',
-        'Coursework %': 'Coursework'
     }, inplace = True)
 
     st.write("\n")
     st.write('##### Click on table columns to sort courses by relevant filters')
     st.write("\n")
 
-    st.dataframe(filtered_courses_display[['Course', 'Units', 'Mean', 'First-Class %', 'Coursework']], height = 600, width = 1000, column_config = {"Course": st.column_config.Column(width = 330)})
+    st.dataframe(filtered_courses_display[['Course', 'Units', 'Mean', 'First-Class %', 'Coursework %']], 
+                 height = 600, 
+                 width = 1000, 
+                 column_config = {"Course": st.column_config.Column(width = 330)}
+                 )
 
 elif st.session_state.show_keyword_search:
     st.write("### Keyword Search")
