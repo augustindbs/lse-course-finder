@@ -14,6 +14,7 @@ Data is currently available for the **following departments**:
 - Government
 - Management
 - History
+- Geography
 - Law
 - Finance
 - International Relations
