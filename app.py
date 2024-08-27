@@ -1,4 +1,5 @@
 import streamlit as st
+import altair as alt
 import pandas as pd
 import pickle
 
@@ -76,10 +77,10 @@ if st.session_state.show_filter:
     ]
 
     filtered_courses_display = filtered_courses.copy()
-    filtered_courses_display['Coursework %'] = (filtered_courses_display['Coursework %'] * 100).astype(float).round(1)
+    filtered_courses_display['Coursework %'] = (filtered_courses_display['Coursework %'] * 100).astype(int).astype(str) + '%'
     filtered_courses_display['Participation %'] = (filtered_courses_display['Participation %'] * 100).astype(float).astype(str) + '%'
     filtered_courses_display['Exam %'] = (filtered_courses_display['Exam %'] * 100).astype(int).astype(str) + '%'
-    filtered_courses_display['1 (2024)'] = (filtered_courses_display['1 (2024)'] * 100).astype(float).round(1)
+    filtered_courses_display['1 (2024)'] = (filtered_courses_display['1 (2024)'] * 100).astype(float).round(1).astype(str) + '%'
 
     filtered_courses_display.rename(columns = {
         'Course Name': 'Course',
@@ -194,4 +195,9 @@ else:
     st.write("#### Past Year Grade Distribution (2023-2024):")
     st.write("\n")
 
-    st.bar_chart(grades_df.set_index('Grade'), color = '#8E0000', horizontal = True, height = 350, x_label = 'Frequency (%)', y_label = 'Grade Classification')
+    bar_chart = alt.Chart(grades_df).mark_bar(color = '#8E0000').encode(
+        y = alt.Y('Grade:N', sort = None, title = 'Grade Classification'),
+        x = alt.X('Frequency (%):Q', scale = alt.Scale(domain = [0, 100]), title = 'Frequency (%)')
+        ).properties(height = 350)
+
+    st.altair_chart(bar_chart, use_container_width=True)
